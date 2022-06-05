@@ -1,12 +1,14 @@
 import { MaskDefinition } from './mask-definition';
 import { DEFAULT_SETTINGS, MaskingOptions } from './masking-options';
+import { MaskingParameters } from './masking-parameters';
 import { MaskingResult } from './masking-result';
 
 export function maskText(settings: {
   text: string;
   mask: string;
   options?: MaskingOptions;
-}): MaskingResult {
+}): MaskingResult;
+export function maskText(settings: MaskingParameters): MaskingResult {
   settings.options = mergeSettings(DEFAULT_SETTINGS, settings.options ?? {});
   const { text, mask, options } = settings;
   const result = { success: true, mask, input: text, output: '' };
