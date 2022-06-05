@@ -34,6 +34,40 @@ describe('maskText', () => {
     });
   });
 
+  describe('Capitalization', () => {
+    it('will capitalize values when capitalization flag enabled', () => {
+      const settings: MaskingParameters = {
+        text: 'ABCabc',
+        mask: 'AAAAAA',
+        options: { autocapitalize: false, invalidCharPlaceholder: '#' }
+      };
+      const result1 = maskText(settings);
+      expect(result1.success).toBeFalse();
+      expect(result1.output).toBe('ABC###');
+
+      settings.options = { ...settings.options, autocapitalize: true };
+      const result2 = maskText(settings);
+      expect(result2.success).toBeTrue();
+      expect(result2.output).toBe('ABCABC');
+    });
+
+    it('will uncapitalize values when capitalization flag enabled', () => {
+      const settings: MaskingParameters = {
+        text: 'ABCabc',
+        mask: 'aaaaaa',
+        options: { autocapitalize: false, invalidCharPlaceholder: '#' }
+      };
+      const result1 = maskText(settings);
+      expect(result1.success).toBeFalse();
+      expect(result1.output).toBe('###abc');
+
+      settings.options = { ...settings.options, autocapitalize: true };
+      const result2 = maskText(settings);
+      expect(result2.success).toBeTrue();
+      expect(result2.output).toBe('abcabc');
+    });
+  });
+
   describe('Custom definitions', () => {
     it('will override a definition with new validation RegExp', () => {
       const params: MaskingParameters = {
