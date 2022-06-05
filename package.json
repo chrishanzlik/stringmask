@@ -1,7 +1,7 @@
 {
-  "name": "mask",
-  "version": "1.0.0",
-  "description": "",
+  "name": "stringmask",
+  "version": "0.0.1-alpha",
+  "description": "String masking engine",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
