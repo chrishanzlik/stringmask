@@ -8,7 +8,7 @@
   ],
   "rules": {
     "quotes": [2, "single"],
-    "prefer-const": "error"
+    "prefer-const": "warn"
   },
   "ignorePatterns": ["*.js"]
 }

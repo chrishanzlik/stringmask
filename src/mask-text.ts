@@ -9,44 +9,56 @@ export function maskText(settings: {
   options?: MaskingOptions;
 }): MaskingResult;
 export function maskText(settings: MaskingParameters): MaskingResult {
-  settings.options = mergeSettings(DEFAULT_SETTINGS, settings.options ?? {});
-  const { text, mask, options } = settings;
-  const result = { success: true, mask, input: text, output: '' };
-  let ptr = 0;
-  let target = Array(mask.length).fill(undefined);
+  const { text, mask, options } = {
+    ...settings,
+    options: mergeSettings(DEFAULT_SETTINGS, settings.options ?? {})
+  };
+
+  let success = true;
+  let inputPtr = 0;
+  let target = Array<string | undefined>(mask.length).fill(undefined);
 
   for (let i = 0; i < mask.length; i++) {
     const index = options.direction === 'ltr' ? i : mask.length - 1 - i;
 
-    if (isConvertableMaskEntry(mask[index], options)) {
+    if (charCanBeSwapped(mask[index], options)) {
       const { isMatch, outputText } = processCharMatch(
-        text.charAt(ptr++),
+        text.charAt(inputPtr++),
         mask[index],
         options
       );
 
       const placeholder =
-        ptr > text.length ? undefined : options.invalidCharPlaceholder;
+        inputPtr > text.length ? undefined : options.invalidCharPlaceholder;
+
       target[index] = isMatch ? outputText : placeholder;
-      result.success &&= isMatch;
+      success &&= isMatch;
     } else {
-      target[index] = ptr > text.length ? undefined : mask[index];
+      target[index] = inputPtr > text.length ? undefined : mask[index];
     }
   }
 
   if (!options.partialOutput) {
-    target = target.map((char, index) => {
-      if (char !== undefined) {
-        return char;
-      }
-
-      return !isConvertableMaskEntry(mask[index], options)
-        ? mask.charAt(index)
-        : options.placeholder;
-    });
+    target = mapToFullMaskOutput(target, mask, options);
   }
 
-  return { ...result, output: target.join('').trim() };
+  return { success, mask, input: text, output: target.join('').trim() };
+}
+
+function mapToFullMaskOutput(
+  target: (string | undefined)[],
+  mask: string,
+  options: MaskingOptions
+): (string | undefined)[] {
+  return target.map((char, index) => {
+    if (char !== undefined) {
+      return char;
+    }
+
+    return !charCanBeSwapped(mask[index], options)
+      ? mask.charAt(index)
+      : options.placeholder;
+  });
 }
 
 function mergeSettings(...settings: MaskingOptions[]): MaskingOptions {
@@ -62,7 +74,7 @@ function processCharMatch(
   options: MaskingOptions
 ): {
   isMatch: boolean;
-  outputText: string | null;
+  outputText: string;
 } {
   const maskDefinition = options?.definitions && options.definitions[maskChar];
 
@@ -101,10 +113,7 @@ function adjustCapitalization(maskChar: string, inputChar: string): string {
   }
 }
 
-function isConvertableMaskEntry(
-  value: string,
-  options: MaskingOptions
-): boolean {
+function charCanBeSwapped(value: string, options: MaskingOptions): boolean {
   const definitionMatch = options?.definitions
     ? Object.keys(options?.definitions).indexOf(value) > -1
     : false;

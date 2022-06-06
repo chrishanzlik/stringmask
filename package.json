@@ -1,5 +1,5 @@
 {
-  "name": "stringmask",
+  "name": "stringmasks",
   "version": "0.0.1-alpha",
   "description": "String masking engine",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
     "/dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "test": "npm run lint && karma start",
     "lint": "eslint --ext .ts src/"
   },
