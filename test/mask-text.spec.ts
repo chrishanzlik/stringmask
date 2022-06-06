@@ -3,6 +3,12 @@ import { MaskingParameters } from '../src/masking-parameters';
 
 describe('maskText', () => {
   describe('Common', () => {
+    it('will handle special characters as static mask tokens by default', () => {
+      const r = maskText({ text: '123', mask: '!.999#.?=' });
+      expect(r.success).toBeTrue();
+      expect(r.output).toBe('!.123#.?=');
+    });
+
     it('will set correct placeholders, when an empty text was passed.', () => {
       const r = maskText({
         text: '',
@@ -69,6 +75,22 @@ describe('maskText', () => {
   });
 
   describe('Custom definitions', () => {
+    it('will handle special characters', () => {
+      const r = maskText({
+        text: '!$!%',
+        mask: '-? ? ? ?-',
+        options: {
+          definitions: {
+            '?': {
+              validator: (val: string) => ['!', '$', '%'].includes(val)
+            }
+          }
+        }
+      });
+      expect(r.success).toBeTrue();
+      expect(r.output).toBe('-! $ ! %-');
+    });
+
     it('will override a definition with new validation RegExp', () => {
       const params: MaskingParameters = {
         text: '666666',

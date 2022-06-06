@@ -1,13 +1,13 @@
 {
-  "name": "stringmasks",
-  "version": "0.0.1-alpha",
-  "description": "Generating string masks with typescript/javascript",
-  "homepage": "https://github.com/chrishanzlik/stringmasks",
-  "repository": "github:chrishanzlik/stringmasks",
+  "name": "textmasks",
+  "version": "0.0.1-beta",
+  "description": "Generating text masks with typescript/javascript",
+  "homepage": "https://github.com/chrishanzlik/textmasks",
+  "repository": "github:chrishanzlik/textmasks",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bugs": {
-    "url": "https://github.com/chrishanzlik/stringmasks/issues"
+    "url": "https://github.com/chrishanzlik/textmasks/issues"
   },
   "files": [
     "/dist"
@@ -21,7 +21,6 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jasmine": "^4.0.3",
-    "@types/node": "^17.0.40",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
     "eslint": "^8.17.0",

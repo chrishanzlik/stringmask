@@ -1,3 +1,4 @@
+import { FlatType } from './flat-type';
 import { MaskDefinition } from './mask-definition';
 import { DEFAULT_SETTINGS, MaskingOptions } from './masking-options';
 import { MaskingParameters } from './masking-parameters';
@@ -7,9 +8,13 @@ export function maskText(settings: {
   text: string;
   mask: string;
   options?: MaskingOptions;
-}): MaskingResult;
+}): FlatType<MaskingResult>;
 export function maskText(settings: MaskingParameters): MaskingResult {
-  const { text, mask, options } = {
+  const {
+    text: input,
+    mask,
+    options
+  } = {
     ...settings,
     options: mergeSettings(DEFAULT_SETTINGS, settings.options ?? {})
   };
@@ -23,18 +28,18 @@ export function maskText(settings: MaskingParameters): MaskingResult {
 
     if (charCanBeSwapped(mask[index], options)) {
       const { isMatch, outputText } = processCharMatch(
-        text.charAt(inputPtr++),
+        input.charAt(inputPtr++),
         mask[index],
         options
       );
 
       const placeholder =
-        inputPtr > text.length ? undefined : options.invalidCharPlaceholder;
+        inputPtr > input.length ? undefined : options.invalidCharPlaceholder;
 
       target[index] = isMatch ? outputText : placeholder;
       success &&= isMatch;
     } else {
-      target[index] = inputPtr > text.length ? undefined : mask[index];
+      target[index] = inputPtr > input.length ? undefined : mask[index];
     }
   }
 
@@ -42,7 +47,7 @@ export function maskText(settings: MaskingParameters): MaskingResult {
     target = mapToFullMaskOutput(target, mask, options);
   }
 
-  return { success, mask, input: text, output: target.join('').trim() };
+  return { success, mask, input, output: target.join('').trim() };
 }
 
 function mapToFullMaskOutput(

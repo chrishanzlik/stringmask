@@ -1,13 +1,13 @@
-# stringmasks
+# textmasks
 
-[![npm](https://img.shields.io/npm/v/stringmasks)](https://www.npmjs.com/package/stringmasks)
+[![npm](https://img.shields.io/npm/v/textmasks)](https://www.npmjs.com/package/textmasks)
 
-Experimental typescript/javascript lib for masking strings.
+Experimental typescript/javascript lib for masking texts.
 
 ## Installation guide
 
 ```bash
-npm install stringmasks --save
+npm install textmasks --save
 ```
 
 ## Mask options
@@ -18,12 +18,11 @@ TBC...
 
 Default definitions for all numbers and alphabetical characters:
 
-| Char(s) | Description         | Expression        |
-| ------- | ------------------- | ----------------- |
-| a-z     | Lower case letters  | `/^[a-z]$/`       |
-| A-Z     | Uppser case letters | `/^[A-Z]$/`       |
-| 0-9     | Numbers             | `/^[0-9]$/`       |
-| \*      | Letters and numbers | `/^[a-zA-Z0-9]$/` |
+| Char(s) | Description         | Expression  |
+| ------- | ------------------- | ----------- |
+| a-z     | Lower case letters  | `/^[a-z]$/` |
+| A-Z     | Uppser case letters | `/^[A-Z]$/` |
+| 0-9     | Numbers             | `/^[0-9]$/` |
 
 ## Examples
 

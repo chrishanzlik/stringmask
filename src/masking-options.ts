@@ -39,7 +39,6 @@ export const DEFAULT_SETTINGS: MaskingOptions = {
   invalidCharPlaceholder: '',
   direction: 'ltr',
   definitions: {
-    '*': { validator: /^[0-9a-zA-Z]$/ },
     ...DEFAULT_NUMBERS_DEFS,
     ...DEFAULT_LOWER_LETTERS_DEFS,
     ...DEFAULT_UPPER_LETTERS_DEFS
