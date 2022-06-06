@@ -24,6 +24,12 @@ Default definitions for all numbers and alphabetical characters:
 | A-Z     | Uppser case letters | `/^[A-Z]$/` |
 | 0-9     | Numbers             | `/^[0-9]$/` |
 
+## Work with the string extension
+
+```typescript
+'123456'.mask('(999)-999', options);
+```
+
 ## Examples
 
 Direct match:
