@@ -1,9 +1,14 @@
 {
   "name": "stringmasks",
   "version": "0.0.1-alpha",
-  "description": "String masking engine",
+  "description": "Generating string masks with typescript/javascript",
+  "homepage": "https://github.com/chrishanzlik/stringmasks",
+  "repository": "github:chrishanzlik/stringmasks",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/chrishanzlik/stringmasks/issues"
+  },
   "files": [
     "/dist"
   ],
