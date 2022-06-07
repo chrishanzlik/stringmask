@@ -1,5 +1,3 @@
-//import '../src/string.extensions';
-
 import '../src/string.extensions';
 import * as TextMaskModule from '../src/mask-text';
 
