@@ -10,6 +10,8 @@ export function maskText(settings: {
   options?: MaskingOptions;
 }): FlatType<MaskingResult>;
 export function maskText(settings: MaskingParameters): MaskingResult {
+  validateParameters(settings);
+
   const {
     text: input,
     mask,
@@ -50,6 +52,20 @@ export function maskText(settings: MaskingParameters): MaskingResult {
   return { success, mask, input, output: target.join('').trim() };
 }
 
+function validateParameters(params: MaskingParameters): void {
+  if (!params) {
+    throw new Error('A parameter object is required.');
+  }
+
+  if (params.text === undefined || params.text === null) {
+    throw new Error('Null or undefined is not allowed for "text" parameter.');
+  }
+
+  if (!params.mask) {
+    throw new Error('The "mask" parameter must provide a value.');
+  }
+}
+
 function mapToFullMaskOutput(
   target: (string | undefined)[],
   mask: string,
@@ -60,7 +76,8 @@ function mapToFullMaskOutput(
       return char;
     }
 
-    return !charCanBeSwapped(mask[index], options)
+    return !charCanBeSwapped(mask[index], options) ||
+      options.placeholder === undefined
       ? mask.charAt(index)
       : options.placeholder;
   });
@@ -82,6 +99,9 @@ function processCharMatch(
   outputText: string;
 } {
   const maskDefinition = options?.definitions && options.definitions[maskChar];
+  if (maskDefinition === null) {
+    return { isMatch: false, outputText: inputChar };
+  }
 
   if (options.autocapitalize && isAlphabetical(inputChar)) {
     inputChar = adjustCapitalization(maskChar, inputChar);
@@ -122,6 +142,14 @@ function charCanBeSwapped(value: string, options: MaskingOptions): boolean {
   const definitionMatch = options?.definitions
     ? Object.keys(options?.definitions).indexOf(value) > -1
     : false;
+
+  if (
+    definitionMatch &&
+    options.definitions &&
+    options.definitions[value] === null
+  ) {
+    return false;
+  }
 
   return definitionMatch || /^[a-zA-Z0-9]$/.test(value[0]);
 }

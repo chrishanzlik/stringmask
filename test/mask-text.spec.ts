@@ -3,6 +3,18 @@ import { MaskingParameters } from '../src/masking-parameters';
 
 describe('maskText', () => {
   describe('Common', () => {
+    it('will use the mask value, when placeholder not provided', () => {
+      const r = maskText({
+        text: '',
+        mask: '123_456',
+        options: {
+          placeholder: undefined,
+          partialOutput: false
+        }
+      });
+      expect(r.output).toBe('123_456');
+    });
+
     it('will handle special characters as static mask tokens by default', () => {
       const r = maskText({ text: '123', mask: '!.999#.?=' });
       expect(r.success).toBeTrue();
@@ -37,6 +49,38 @@ describe('maskText', () => {
       });
       expect(r.success).toBeTrue();
       expect(r.output).toBe('(111)-222-111');
+    });
+  });
+
+  describe('Function parameter validation', () => {
+    it('will throw an error, when the settings object is null or undefined', () => {
+      expect(() => maskText(<MaskingParameters>(<unknown>null))).toThrowError(
+        'A parameter object is required.'
+      );
+      expect(() =>
+        maskText(<MaskingParameters>(<unknown>undefined))
+      ).toThrowError('A parameter object is required.');
+    });
+
+    it('will throw an error, when the given text input is not valid', () => {
+      expect(() =>
+        maskText({ text: <string>(<unknown>undefined), mask: '000' })
+      ).toThrowError('Null or undefined is not allowed for "text" parameter.');
+      expect(() =>
+        maskText({ text: <string>(<unknown>null), mask: '000' })
+      ).toThrowError('Null or undefined is not allowed for "text" parameter.');
+    });
+
+    it('will throw an error, when the given mask input is not valid', () => {
+      expect(() => maskText({ text: '000', mask: '' })).toThrowError(
+        'The "mask" parameter must provide a value.'
+      );
+      expect(() =>
+        maskText({ text: '000', mask: <string>(<unknown>null) })
+      ).toThrowError('The "mask" parameter must provide a value.');
+      expect(() =>
+        maskText({ text: '000', mask: <string>(<unknown>undefined) })
+      ).toThrowError('The "mask" parameter must provide a value.');
     });
   });
 
@@ -89,6 +133,27 @@ describe('maskText', () => {
       });
       expect(r.success).toBeTrue();
       expect(r.output).toBe('-! $ ! %-');
+    });
+
+    it('will handle removed definitions as static mask token', () => {
+      let params: MaskingParameters = {
+        text: '111111',
+        mask: '888-999'
+      };
+      const beforeResult = maskText(params);
+      expect(beforeResult.output).toBe('111-111');
+
+      params = {
+        ...params,
+        options: {
+          definitions: {
+            ['8']: null
+          }
+        }
+      };
+
+      const afterResult = maskText(params);
+      expect(afterResult.output).toBe('888-111');
     });
 
     it('will override a definition with new validation RegExp', () => {

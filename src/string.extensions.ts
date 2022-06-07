@@ -20,6 +20,6 @@ String.prototype.mask = function (
   this: string,
   mask: string,
   options?: MaskingOptions
-) {
+): FlatType<MaskingResult> {
   return maskText({ text: this, mask, options });
 };

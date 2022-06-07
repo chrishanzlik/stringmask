@@ -6,7 +6,7 @@ export type MaskingOptions = {
   autocapitalize?: boolean;
   invalidCharPlaceholder?: string;
   direction?: 'ltr' | 'rtl';
-  definitions?: { [maskValue: string]: MaskDefinition };
+  definitions?: { [maskValue: string]: MaskDefinition | null };
 };
 
 const DEFAULT_NUMBERS_DEFS = Array(10)
