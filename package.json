@@ -15,6 +15,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "test": "npm run lint && karma start",
+    "test:ci": "npm run lint && karma start --browsers=ChromeHeadless --progress=false --watch=false --code-coverage",
     "lint": "eslint --ext .ts src/"
   },
   "author": "Christopher Hanzlik",
