@@ -35,11 +35,11 @@ Default definitions for all numbers and alphabetical characters:
 Direct match:
 
 ```typescript
-import { maskText } from 'stringmasks';
+import { maskText } from 'textmasks';
 
 const result = maskText({
   text: '123456',
-  mask: '(9)99-999'
+  mask: '(9)99-999',
 });
 
 result.output === '(1)23-456'; // true
@@ -48,14 +48,14 @@ result.output === '(1)23-456'; // true
 Partial mask output:
 
 ```typescript
-import { maskText } from 'stringmasks';
+import { maskText } from 'textmasks';
 
 const result = maskText({
   text: '123',
   mask: '(9)99-999',
   options: {
-    partialOutput: true
-  }
+    partialOutput: true,
+  },
 });
 
 result.output === '(1)123-'; // true
@@ -64,7 +64,7 @@ result.output === '(1)123-'; // true
 Full mask output with RTL-direction:
 
 ```typescript
-import { maskText } from 'stringmasks';
+import { maskText } from 'textmasks';
 
 const result = maskText({
   text: '12',
@@ -72,8 +72,8 @@ const result = maskText({
   options: {
     placeholder: '_',
     partialOutput: false,
-    direction: 'rtl'
-  }
+    direction: 'rtl',
+  },
 });
 
 result.output === '(_)__-_21'; // true

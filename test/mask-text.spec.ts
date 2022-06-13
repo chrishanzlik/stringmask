@@ -1,5 +1,5 @@
 import { maskText } from '../src/mask-text';
-import { MaskingParameters } from '../src/masking-parameters';
+import { MaskTextParameters } from '../src/mask-text-parameters';
 
 describe('maskText', () => {
   describe('Common', () => {
@@ -54,11 +54,11 @@ describe('maskText', () => {
 
   describe('Function parameter validation', () => {
     it('will throw an error, when the settings object is null or undefined', () => {
-      expect(() => maskText(<MaskingParameters>(<unknown>null))).toThrowError(
+      expect(() => maskText(<MaskTextParameters>(<unknown>null))).toThrowError(
         'A parameter object is required.'
       );
       expect(() =>
-        maskText(<MaskingParameters>(<unknown>undefined))
+        maskText(<MaskTextParameters>(<unknown>undefined))
       ).toThrowError('A parameter object is required.');
     });
 
@@ -86,7 +86,7 @@ describe('maskText', () => {
 
   describe('Capitalization', () => {
     it('will capitalize values when capitalization flag enabled', () => {
-      const settings: MaskingParameters = {
+      const settings: MaskTextParameters = {
         text: 'ABCabc',
         mask: 'AAAAAA',
         options: { autocapitalize: false, invalidCharPlaceholder: '#' }
@@ -102,7 +102,7 @@ describe('maskText', () => {
     });
 
     it('will uncapitalize values when capitalization flag enabled', () => {
-      const settings: MaskingParameters = {
+      const settings: MaskTextParameters = {
         text: 'ABCabc',
         mask: 'aaaaaa',
         options: { autocapitalize: false, invalidCharPlaceholder: '#' }
@@ -136,7 +136,7 @@ describe('maskText', () => {
     });
 
     it('will handle removed definitions as static mask token', () => {
-      let params: MaskingParameters = {
+      let params: MaskTextParameters = {
         text: '111111',
         mask: '888-999'
       };
@@ -157,7 +157,7 @@ describe('maskText', () => {
     });
 
     it('will override a definition with new validation RegExp', () => {
-      const params: MaskingParameters = {
+      const params: MaskTextParameters = {
         text: '666666',
         mask: '555-666',
         options: {
@@ -176,7 +176,7 @@ describe('maskText', () => {
     });
 
     it('will add a wildcard character by validation func', () => {
-      const params: MaskingParameters = {
+      const params: MaskTextParameters = {
         text: 'ABC123!',
         mask: 'PPPPPPP',
         options: {

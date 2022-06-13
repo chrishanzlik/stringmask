@@ -41,6 +41,6 @@ export const DEFAULT_SETTINGS: MaskingOptions = {
   definitions: {
     ...DEFAULT_NUMBERS_DEFS,
     ...DEFAULT_LOWER_LETTERS_DEFS,
-    ...DEFAULT_UPPER_LETTERS_DEFS
-  }
+    ...DEFAULT_UPPER_LETTERS_DEFS,
+  },
 };

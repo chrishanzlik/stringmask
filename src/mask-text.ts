@@ -1,7 +1,7 @@
 import { FlatType } from './flat-type';
 import { MaskDefinition } from './mask-definition';
 import { DEFAULT_SETTINGS, MaskingOptions } from './masking-options';
-import { MaskingParameters } from './masking-parameters';
+import { MaskTextParameters } from './mask-text-parameters';
 import { MaskingResult } from './masking-result';
 
 export function maskText(settings: {
@@ -9,16 +9,16 @@ export function maskText(settings: {
   mask: string;
   options?: MaskingOptions;
 }): FlatType<MaskingResult>;
-export function maskText(settings: MaskingParameters): MaskingResult {
+export function maskText(settings: MaskTextParameters): MaskingResult {
   validateParameters(settings);
 
   const {
     text: input,
     mask,
-    options
+    options,
   } = {
     ...settings,
-    options: mergeSettings(DEFAULT_SETTINGS, settings.options ?? {})
+    options: mergeSettings(DEFAULT_SETTINGS, settings.options ?? {}),
   };
 
   let success = true;
@@ -52,7 +52,7 @@ export function maskText(settings: MaskingParameters): MaskingResult {
   return { success, mask, input, output: target.join('').trim() };
 }
 
-function validateParameters(params: MaskingParameters): void {
+function validateParameters(params: MaskTextParameters): void {
   if (!params) {
     throw new Error('A parameter object is required.');
   }
@@ -109,7 +109,7 @@ function processCharMatch(
 
   return {
     isMatch: validateInputChar(inputChar, maskDefinition),
-    outputText: inputChar
+    outputText: inputChar,
   };
 }
 

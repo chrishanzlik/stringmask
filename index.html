@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id="example-input">
+    <div></div>
+    <script src="textmasks.js"></script>
+    <script type="module">
+        let { maskText, maskInput } = textmasks;
+        // document.body.innerText = maskText({ text: '123456', mask: '+(000) 000' }).output;
+        let input = document.getElementById('example-input');
+
+        maskInput({ input, mask: '+(000)123' })
+
+    </script>
+</body>
+</html>
